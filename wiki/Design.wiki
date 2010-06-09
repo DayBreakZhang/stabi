@@ -8,10 +8,10 @@ When objects are handed out of a method, the ownership is ambiguous by the synta
 
 === Allocation/Deallocation ===
 In theory, the person allocating should be the person deallocating.  This is often overlooked in C++ since most people assumes all objects come from the same heap.  Some common abuses are:
-* The abused factory pattern not being coupled with a destruction method
-* Smart pointers assuming the global free operator can be called
+  * The abused factory pattern not being coupled with a destruction method
+  * Smart pointers assuming the global free operator can be called
 
-stabi interface objects are always destroyed via the destructible interface.  This is much like overloading operator delete on the object, but in a manner that's well defined in a binary format.  For this reason, a virtual destructor on the public interface is not necessary.
+stabi interface objects are always destroyed via the destructible interface.  This analogous to overloading delete operator on an object, but in a manner that's well defined in a binary format.  For this reason, a virtual destructor on the public interface is not necessary.
 
 === Errors/Exceptions ===
 The use of exceptions is one of the most hotly debated subjects in programming.
