@@ -1,7 +1,7 @@
 #summary Design philosophy around stabi
 
 = Introduction =
-Any interface/object designer in C++ needs to consider a number of seemingly obvious, but often overlooked aspect of the language.  Minimally, any contribution to stabi needs to consider [Design#Errors/Exceptions].
+Any interface/object designer in C++ needs to consider a number of seemingly obvious, but often overlooked aspect of the language.  Minimally, any contribution to stabi needs to consider [Design#Errors/Exceptions Errors/Exceptions].
 
 = Ownership =
 
