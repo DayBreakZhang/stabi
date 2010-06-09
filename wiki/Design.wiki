@@ -7,7 +7,11 @@ Any interface/object designer in C++ needs to consider a number of seemingly obv
 When objects are handed out of a method, the ownership is ambiguous by the syntax alone.  People generally follow coding standards, best practices or documentation to determine object ownership.  stabi handles ownership via self documentation in code.  If an object is handed out and if it contains the destructible interface, then ownership is granted.
 
 === Allocation/Deallocation ===
+In theory, the person allocating should be the person deallocating.  This is often overlooked in C++ since most people assumes all objects come from the same heap.  Some common abuses are:
+* The abused factory pattern not being coupled with a destruction method
+* Smart pointers assuming the global free operator can be called
 
+stabi interface objects are always destroyed vi the destructible interface.  This is much like overloading operator delete on the object, but in a manner that's well defined in a binary format.  For this reason, a virtual destructor on the public interface is not necessary.
 
 === Errors/Exceptions ===
 
