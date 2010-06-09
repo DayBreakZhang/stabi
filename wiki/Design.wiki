@@ -4,8 +4,10 @@
 Any interface/object designer in C++ needs to consider a number of seemingly obvious, but often overlooked aspect of the language.  Minimally, any contribution to stabi needs to consider [#Ownership Object Ownership], [#Allocation/Deallocation Allocation/Deallocation], [#Errors/Exceptions Errors/Exceptions], [#Primitives Primitive types], [#Equivalence Equivalence], [#Concurrency Concurrency], [#Constness Constness], [#Speed Speed].
 
 === Ownership ===
+When objects are handed out of a method, the ownership is ambiguous by the syntax alone.  People generally follow coding standards, best practices or documentation to determine object ownership.  stabi handles ownership via self documentation in code.  If an object is handed out and if it contains the destructible interface, then ownership is granted.
 
 === Allocation/Deallocation ===
+
 
 === Errors/Exceptions ===
 
