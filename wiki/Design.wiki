@@ -12,7 +12,7 @@ In theory, the person allocating should be the person deallocating.  This is oft
   * The abused factory pattern not being coupled with a destruction method
   * Smart pointers assuming the global free operator can be called
 
-To handle this exact problem, and to allow for user configured allocation schemes, you'll see fun code like this:
+To handle this exact problem, and to allow for user configured allocation schemes, you'll see fun code like this in our implementation:
 
 `m_pMapImpl = AllocatorType::rebind<mapImplType>::other().allocate(1);`
 
@@ -55,7 +55,7 @@ Note to Implementer:
 Be very cautious of using mutable when implementing stabi interfaces.
 
 Note to both:
-Be very careful not to break the final-const contract when using const_cast<>
+Be very careful not to break the final-const contract when using const_cast<T>(o)
 
 === Performance ===
 stabi is designed with performance in mind.  If your compiler inlines well enough, and you don't mind the extra v-table look up, then you can even use stabi within a module boundary efficiently.   While we would like to provide our own container implementation to allow for additional memory/speed control, we simply don't have the time, so the stl adapters will have to do for now.
