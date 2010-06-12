@@ -34,8 +34,11 @@ The use of exceptions is one of the most hotly debated subjects in programming. 
 This leaves us with the option of returning error codes to indicate an error.  Unfortunately, every project and every platform has their own set of error codes.  Due to the lack of standardization on a comprehensive set of error codes, we will simply return bool type for simplicity.  (The user is welcome, to adapt the stabi interfaces to return the type of their choice)
 
 Further, this results in pointer return types to allow for allow for error communication: for example, one would see:
+
 `const returnType * f() const;`
+
 as opposed to
+
 `const returnType & f() const;`
 
 === Comparisons ===
