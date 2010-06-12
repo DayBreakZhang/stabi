@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_STABI_INTERFACE_KEY_ACCESSABLE_H
-#define __UTIL_STABI_INTERFACE_KEY_ACCESSABLE_H
+#ifndef __UTIL_STABI_INTERFACE_KEY_ACCESSIBLE_H
+#define __UTIL_STABI_INTERFACE_KEY_ACCESSIBLE_H
 
 namespace util
 {
@@ -32,7 +32,7 @@ template<
 		typename _KeyType, 
 		typename _DataType
 		>
-class KeyAccessable
+class KeyAccessible
 {
 public:
 	typedef _KeyType KeyType;
@@ -40,7 +40,7 @@ public:
 public:
 	// modifier
 	virtual bool Put(const KeyType &key, const DataType &data) throw () = 0;
-	virtual void Erase(const KeyType &key) throw ()  = 0;
+	virtual bool EraseKey(const KeyType &key) throw ()  = 0;
 	virtual bool Remove(const KeyType &key, DataType &outData) throw ()  = 0;
 
 	// operation
@@ -53,4 +53,4 @@ public:
 }	// namespace stabi
 }	// namespace util
 
-#endif	// __UTIL_STABI_INTERFACE_KEY_ACCESSABLE_H
+#endif	// __UTIL_STABI_INTERFACE_KEY_ACCESSIBLE_H

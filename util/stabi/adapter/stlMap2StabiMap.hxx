@@ -77,14 +77,14 @@ typename STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType
 
 // Collection
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Add(const DataType &inData) const throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Add(const DataType &inData) throw ()
 {
 	assert(m_pMapImpl != NULL);
 	return false;
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const DataType &data) const throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const DataType &data) throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -96,7 +96,7 @@ bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::E
 	{
 		if (data == it->second)
 		{
-			m_pMapImpl->Erase(it);
+			m_pMapImpl->erase(it);
 			return true;
 		}
 	}
@@ -146,7 +146,7 @@ void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::C
 
 	return m_pMapImpl->clear();
 }
-// KeyAccessable
+// KeyAccessible
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
 bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Put(const KeyType &key, const DataType &data) throw ()
 {
@@ -173,28 +173,18 @@ bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::P
     {
     	return false;
     }
-    assert(retVal.second);
-    return retVal.second;
+    return true;
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const KeyType &key) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::EraseKey(const KeyType &key) throw ()
 {
     assert(m_pMapImpl != NULL);
     if (m_pMapImpl == NULL)
     {
-        return;
+        return false;
     }
-
-    mapImplType::iterator retVal;
-    retVal = m_pMapImpl->find(key);
-    if (retVal == m_pMapImpl->end())
-    {
-        return;
-    }
-
-    m_pMapImpl->erase(retVal);
-    return;
+    return m_pMapImpl->erase(key) != 0;
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>

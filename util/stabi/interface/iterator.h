@@ -21,7 +21,7 @@
 #ifndef __UTIL_STABI_INTERFACE_ITERATOR_H
 #define __UTIL_STABI_INTERFACE_ITERATOR_H
 
-#include "util/destructable.h"
+#include "util/destructible.h"
 
 namespace util
 {
@@ -34,7 +34,7 @@ template<
 		typename _DataType
 		>
 class Iterator : 
-	public util::Destructable
+	public util::Destructible
 {
 public:
 	typedef _DataType DataType;

@@ -22,7 +22,7 @@
 #define __UTIL_STABI_INTERFACE_MAP_H
 
 #include "util/stabi/interface/collection.h"
-#include "util/stabi/interface/keyAccessable.h"
+#include "util/stabi/interface/keyAccessible.h"
 #include "util/stabi/interface/iterable.h"
 
 namespace util
@@ -37,7 +37,7 @@ template<
         >
 class Vector : 
 	public Collection<_DataType>, 
-	public KeyAccessable<size_t, _DataType>,
+	public KeyAccessible<size_t, _DataType>,
 	public Iterable<_DataType>
 {
 public:

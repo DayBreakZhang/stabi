@@ -47,7 +47,7 @@ public:
 	virtual size_t Size() const throw () = 0;
 
 	// bulk
-	virtual bool Clear() throw () = 0;
+	virtual void Clear() throw () = 0;
 };
 
 }   // namespace interface
