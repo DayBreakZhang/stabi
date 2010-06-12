@@ -19,7 +19,7 @@ To handle this exact problem, and to allow for user configured allocation scheme
 stabi interface objects are always destroyed via the destructible interface.  This analogous to overloading delete operator on an object, but in a manner that's well defined in a binary format.  For this reason, a virtual destructor on the public interface is not necessary.
 
 === Primitives ===
-Primitives are safe for c++ abi because they are fixed size, non-throwing, almost standard (msvc2008 doesn't support types like int16_t) types.  We encourage the users to use primitive, and pointer types for all template parameters.
+Primitives are safe for c++ abi because they are fixed size, non-throwing, almost standard (msvc9 doesn't support types like int16_t in stdint.h) types.  We encourage the users to use primitive, POD, and pointer types for all template parameters.
 
 The downside to primitive types is that they are not Objects.  An immediate consequence is that they do not have associated traits and attributes for us to use in the template container implementation.
 
