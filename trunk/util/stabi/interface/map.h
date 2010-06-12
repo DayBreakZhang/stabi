@@ -22,7 +22,7 @@
 #define __UTIL_STABI_INTERFACE_MAP_H
 
 #include "util/stabi/interface/collection.h"
-#include "util/stabi/interface/keyAccessable.h"
+#include "util/stabi/interface/keyAccessible.h"
 
 namespace util
 {
@@ -37,7 +37,7 @@ template<
         >
 class Map : 
 	public Collection<_DataType>, 
-	public KeyAccessable<_KeyType, _DataType>
+	public KeyAccessible<_KeyType, _DataType>
 {
 public:
     typedef _KeyType KeyType;

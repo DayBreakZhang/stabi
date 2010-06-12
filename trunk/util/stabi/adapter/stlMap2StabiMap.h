@@ -52,28 +52,28 @@ public:
 
 public:	// Collection
 	// modifier
-	virtual bool Add(const DataType &inData) throw () = 0;
-	virtual bool Erase(const DataType &inData) throw () = 0;
+	virtual bool Add(const DataType &inData) throw ();
+	virtual bool Erase(const DataType &inData) throw ();
 
 	// operation
-	virtual bool Contains(const DataType &inData) const throw () = 0;
+	virtual bool Contains(const DataType &inData) const throw ();
 
 	// capcacity
-	virtual size_t Size() const throw () = 0;
+	virtual size_t Size() const throw ();
 
 	// bulk
-	virtual bool Clear() throw () = 0;
+	virtual void Clear() throw ();
 
-public: // KeyAccessable functions
+public: // KeyAccessible functions
     // modifier
     bool Put(const KeyType &key, const DataType &data) throw ();
-    void Erase(const KeyType &key) throw ();
+    bool EraseKey(const KeyType &key) throw ();
     bool Remove(const KeyType &key, DataType &outData) throw ();
 
     // operation
-	virtual DataType *Get(const KeyType &key) throw ()  = 0;
-	virtual const DataType *Get(const KeyType &key) const throw ()  = 0;
-	virtual bool ContainsKey(const KeyType &key) const throw ()  = 0;
+	virtual DataType *Get(const KeyType &key) throw ();
+	virtual const DataType *Get(const KeyType &key) const throw ();
+	virtual bool ContainsKey(const KeyType &key) const throw ();
 
 private:
     typedef ::std::pair<typename mapImplType::iterator, bool> mapReturnType;
@@ -87,6 +87,6 @@ private:
 }   // namespace util
 
 // implementation file
-#include "genericMap.hxx"
+#include "stlMap2StabiMap.hxx"
 
 #endif // _GENERIC_MAP_H

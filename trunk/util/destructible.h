@@ -18,13 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_DESTRUCTABLE_H
-#define __UTIL_DESTRUCTABLE_H
+#ifndef __UTIL_DESTRUCTIBLE_H
+#define __UTIL_DESTRUCTIBLE_H
 
 namespace util
 {
 
-class Destructable
+class Destructible
 {
 public:
 	virtual void Destroy() throw () = 0;
@@ -33,4 +33,4 @@ public:
 }	// namespace util
 
 
-#endif	// __UTIL_DESTRUCTABLE_H
+#endif	// __UTIL_DESTRUCTIBLE_H
