@@ -39,7 +39,7 @@ as opposed to
 `const returnType & f() const;`
 
 === Comparisons ===
-
+*_<this section is currently under consideration>_*
 
 === Concurrency ===
 All stabi interfaces are to be used under the assumption that the objects are not synchronized unless otherwise specified on the instance comments.  stabi is meant to be generic, thus, we cannot anticipate the user's threading model.  Any attempt to blindly handle synchronization will only result in poor performance.  If the user wishes to add synchronization, simply provide a synchronized wrapper on-top of the provided implementations.  (I suppose we can make synchronization a trait if someone wants to make a compelling argument)
