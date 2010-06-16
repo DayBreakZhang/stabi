@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_STABI_INTERFACE_MAP_H
-#define __UTIL_STABI_INTERFACE_MAP_H
+#ifndef __UTIL_STABI_INTERFACE_VECTOR_H
+#define __UTIL_STABI_INTERFACE_VECTOR_H
 
 #include "util/stabi/interface/collection.h"
 #include "util/stabi/interface/keyAccessible.h"
@@ -48,4 +48,4 @@ public:
 }   // namespace stabi
 }   // namespace util
 
-#endif // __UTIL_STABI_INTERFACE_MAP_H
+#endif // __UTIL_STABI_INTERFACE_VECTOR_H
