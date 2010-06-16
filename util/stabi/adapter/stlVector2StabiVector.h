@@ -18,11 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
-#define __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
+#ifndef __UTIL_STABI_ADAPTER_STL_VECTOR_2_STABI_VECTOR_H
+#define __UTIL_STABI_ADAPTER_STL_VECTOR_2_STABI_VECTOR_H
 
-#include "util/stabi/interface/map.h"
-#include <map>
+#include "util/stabi/interface/vector.h"
+#include <vector>
 
 namespace util
 {
@@ -32,23 +32,21 @@ namespace adapter
 {
 
 template<
-        typename KeyType, 
         typename DataType, 
-        typename CompareFunctor = ::std::less<KeyType>, 
-        typename AllocatorType = ::std::allocator<::std::pair<const KeyType, DataType> > 
+        typename AllocatorType = ::std::allocator<DataType> 
         >
-class stlMap2stabiMapAdapter : public interface::Map<KeyType, DataType>
+class stlVector2stabiVectorAdapter : public interface::Vector<DataType>
 {
 public:
-    typedef ::std::map<KeyType, DataType, CompareFunctor, AllocatorType> mapImplType;
+	typedef ::std::vector<DataType, AllocatorType> vectorImplType;
 public:
-    stlMap2stabiMapAdapter() throw ();
-    virtual ~stlMap2stabiMapAdapter() throw ();
+    stlVector2stabiVectorAdapter() throw ();
+    virtual ~stlVector2stabiVectorAdapter() throw ();
 
-    // creates an instance of the mapImplType with the AllocatorType
+    // creates an instance of the vectorImplType with the AllocatorType
     bool Initialize() throw ();
-    void Attach(mapImplType *pMapImpl) throw ();
-    mapImplType *Detach() throw ();
+    void Attach(vectorImplType *pMapImpl) throw ();
+    vectorImplType *Detach() throw ();
 
 public:	// Collection
 	// modifier
@@ -75,11 +73,12 @@ public: // KeyAccessible functions
 	virtual const DataType *Get(const KeyType &key) const throw ();
 	virtual bool ContainsKey(const KeyType &key) const throw ();
 
-private:
-    typedef ::std::pair<typename mapImplType::iterator, bool> mapReturnType;
-    typedef ::std::pair<KeyType, DataType> valueType;
+public: // Iterable functions
+	virtual IteratorType GetIterator() const throw ();
+	virtual IteratorType GetReverseIterator() const throw ();
 
-    mapImplType *m_pMapImpl;
+private:
+    vectorImplType *m_pVectorImpl;
 };
 
 }   // namespace adapter
@@ -87,6 +86,6 @@ private:
 }   // namespace util
 
 // implementation file
-#include "stlMap2stabiMap.hxx"
+#include "stlVector2stabiVector.hxx"
 
-#endif // __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
+#endif // __UTIL_STABI_ADAPTER_STL_VECTOR_2_STABI_VECTOR_H

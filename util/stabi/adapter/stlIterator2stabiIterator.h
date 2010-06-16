@@ -37,13 +37,13 @@ template<
         typename CompareFunctor = ::std::less<KeyType>, 
         typename AllocatorType = ::std::allocator<::std::pair<const KeyType, DataType> > 
         >
-class stlMap2stabiMapAdapter : public interface::Map<KeyType, DataType>
+class STLMap2StabiMapAdapter : public interface::Map<KeyType, DataType>
 {
 public:
     typedef ::std::map<KeyType, DataType, CompareFunctor, AllocatorType> mapImplType;
 public:
-    stlMap2stabiMapAdapter() throw ();
-    virtual ~stlMap2stabiMapAdapter() throw ();
+    STLMap2StabiMapAdapter() throw ();
+    virtual ~STLMap2StabiMapAdapter() throw ();
 
     // creates an instance of the mapImplType with the AllocatorType
     bool Initialize() throw ();

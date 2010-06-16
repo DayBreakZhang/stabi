@@ -27,19 +27,19 @@ namespace adapter
 {
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::stlMap2stabiMapAdapter() throw () : m_pMapImpl(NULL)
+STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::STLMap2StabiMapAdapter() throw () : m_pMapImpl(NULL)
 {
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::~stlMap2stabiMapAdapter() throw ()
+STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::~STLMap2StabiMapAdapter() throw ()
 {
     m_pMapImpl->~mapImplType();
     AllocatorType::rebind<mapImplType>::other().deallocate(m_pMapImpl, 1);
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Initialize() throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Initialize() throw ()
 {
     if (m_pMapImpl != NULL)
     {
@@ -57,7 +57,7 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::I
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-void stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Attach(mapImplType *pMapImpl) throw ()
+void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Attach(mapImplType *pMapImpl) throw ()
 {
     if (m_pMapImpl != NULL)
     {
@@ -68,7 +68,7 @@ void stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::A
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-typename stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::mapImplType *stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Detach() throw ()
+typename STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::mapImplType *STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Detach() throw ()
 {
     mapImplType *pMapImpl = m_pMapImpl;
     m_pMapImpl = NULL;
@@ -77,14 +77,14 @@ typename stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType
 
 // Collection
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Add(const DataType &inData) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Add(const DataType &inData) throw ()
 {
 	assert(m_pMapImpl != NULL);
 	return false;
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const DataType &data) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const DataType &data) throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -104,7 +104,7 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::E
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Contains(const DataType &data) const throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Contains(const DataType &data) const throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -123,7 +123,7 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::C
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-size_t stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Size() const throw ()
+size_t STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Size() const throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -136,7 +136,7 @@ size_t stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>:
 
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-void stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Clear() throw ()
+void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Clear() throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -148,7 +148,7 @@ void stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::C
 }
 // KeyAccessible
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Put(const KeyType &key, const DataType &data) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Put(const KeyType &key, const DataType &data) throw ()
 {
     assert(m_pMapImpl != NULL);
     if (m_pMapImpl == NULL)
@@ -177,7 +177,7 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::P
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::EraseKey(const KeyType &key) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::EraseKey(const KeyType &key) throw ()
 {
     assert(m_pMapImpl != NULL);
     if (m_pMapImpl == NULL)
@@ -188,7 +188,7 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::E
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Remove(const KeyType &key, DataType &outData) throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Remove(const KeyType &key, DataType &outData) throw ()
 {
     assert(m_pMapImpl != NULL);
     if (m_pMapImpl == NULL)
@@ -217,13 +217,13 @@ bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::R
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-DataType * stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) throw ()
+DataType * STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) throw ()
 {
-	return const_cast<DataType *>(const_cast<const stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType> *>(this)->Get(key));
+	return const_cast<DataType *>(const_cast<const STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType> *>(this)->Get(key));
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-const DataType * stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) const throw ()
+const DataType * STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) const throw ()
 {
 	assert(m_pMapImpl != NULL);
 	if (m_pMapImpl == NULL)
@@ -242,7 +242,7 @@ const DataType * stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, Alloc
 }
 
 template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool stlMap2stabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::ContainsKey(const KeyType &key) const throw ()
+bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::ContainsKey(const KeyType &key) const throw ()
 {
     assert(m_pMapImpl != NULL);
     if (m_pMapImpl == NULL)
