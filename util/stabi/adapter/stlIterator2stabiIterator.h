@@ -18,11 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
-#define __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
+#ifndef __UTIL_STABI_ADAPTER_STL_ITERATOR_2_STABI_ITERATOR_H
+#define __UTIL_STABI_ADAPTER_STL_ITERATOR_2_STABI_ITERATOR_H
 
-#include "util/stabi/interface/map.h"
-#include <map>
+#include "util/stabi/interface/iterator.h"
 
 namespace util
 {
@@ -32,54 +31,33 @@ namespace adapter
 {
 
 template<
-        typename KeyType, 
-        typename DataType, 
-        typename CompareFunctor = ::std::less<KeyType>, 
-        typename AllocatorType = ::std::allocator<::std::pair<const KeyType, DataType> > 
+        typename CollectionType
         >
-class STLMap2StabiMapAdapter : public interface::Map<KeyType, DataType>
+class stlIterator2stabiIterator : public interface::Iterator<typename CollectionType::value_type>
 {
 public:
-    typedef ::std::map<KeyType, DataType, CompareFunctor, AllocatorType> mapImplType;
+	typedef typename CollectionType::iterator iteratorImplType;
+	typedef typename CollectionType::value_type DataType;
 public:
-    STLMap2StabiMapAdapter() throw ();
-    virtual ~STLMap2StabiMapAdapter() throw ();
+    stlIterator2stabiIterator(iteratorImplType &iteratorImpl, CollectionType *pCollectionImpl) throw ();
+    virtual ~stlIterator2stabiIterator() throw ();
 
-    // creates an instance of the mapImplType with the AllocatorType
-    bool Initialize() throw ();
-    void Attach(mapImplType *pMapImpl) throw ();
-    mapImplType *Detach() throw ();
+public:	// Destructible functions
+	virtual void Destroy() throw ();
 
-public:	// Collection
-	// modifier
-	virtual bool Add(const DataType &inData) throw ();
-	virtual bool Erase(const DataType &inData) throw ();
+public: // Iterator functions
+	virtual bool HasNext() const throw ();
+	virtual bool HasPrevious() const throw();
 
-	// operation
-	virtual bool Contains(const DataType &inData) const throw ();
+	virtual DataType *Get() throw();
+	virtual const DataType *Get() const throw();
 
-	// capcacity
-	virtual size_t Size() const throw ();
-
-	// bulk
-	virtual void Clear() throw ();
-
-public: // KeyAccessible functions
-    // modifier
-    bool Put(const KeyType &key, const DataType &data) throw ();
-    bool EraseKey(const KeyType &key) throw ();
-    bool Remove(const KeyType &key, DataType &outData) throw ();
-
-    // operation
-	virtual DataType *Get(const KeyType &key) throw ();
-	virtual const DataType *Get(const KeyType &key) const throw ();
-	virtual bool ContainsKey(const KeyType &key) const throw ();
+	virtual ptrdiff_t Move(ptrdiff_t offSet) throw();
+	virtual bool Erase() throw();
 
 private:
-    typedef ::std::pair<typename mapImplType::iterator, bool> mapReturnType;
-    typedef ::std::pair<KeyType, DataType> valueType;
-
-    mapImplType *m_pMapImpl;
+    iteratorImplType m_iteratorImpl;
+	CollectionType *m_pCollectionImpl;
 };
 
 }   // namespace adapter
@@ -87,6 +65,6 @@ private:
 }   // namespace util
 
 // implementation file
-#include "stlMap2stabiMap.hxx"
+#include "stlIterator2stabiIterator.hxx"
 
-#endif // __UTIL_STABI_ADAPTER_STL_MAP_2_STABI_MAP_H
+#endif // __UTIL_STABI_ADAPTER_STL_ITERATOR_2_STABI_ITERATOR_H

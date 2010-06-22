@@ -18,42 +18,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef __UTIL_STABI_INTERFACE_ITERATOR_H
-#define __UTIL_STABI_INTERFACE_ITERATOR_H
+#ifndef ___ALGORITHM_ITERATOR_H
+#define ___ALGORITHM_ITERATOR_H
 
-#include "util/destructible.h"
+namespace algorithm
+{
 
-namespace util
-{
-namespace stabi
-{
-namespace interface
-{
-// note: this is the poor man's version of a bidirectional iterator.  
-// It would be nicer to have more specific, forward, backwards, and random access iterator in the future
-// this interface needs to be revisited for correctness
 template<
-		typename _DataType
-		>
-class Iterator : 
-	public util::Destructible
-{
-public:
-	typedef _DataType DataType;
-public:
-	virtual bool HasNext() const throw () = 0;
-	virtual bool HasPrevious() const throw () = 0;
+		class iteratorType,
+		class diffType
+		> 
+inline diffType checkedAdvance(iteratorType& itr, diffType offset, const iteratorType &itrBegin, const iteratorType &itrEnd) throw ();
 
-	virtual DataType *Get() throw () = 0;
-	virtual const DataType *Get() const throw () = 0;
+}   // namespace algorithm
 
-	virtual ptrdiff_t Move(ptrdiff_t offSet) throw () = 0;
-	virtual bool Erase() throw () = 0;
-};
+// implementation file
+#include "algorithm/iterator.hxx"
 
-}   // namespace interface
-}   // namespace stabi
-}   // namespace util
-
-
-#endif	// __UTIL_STABI_INTERFACE_ITERATOR_H
+#endif // ___ALGORITHM_ITERATOR_H
