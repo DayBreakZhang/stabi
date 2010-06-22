@@ -19,6 +19,8 @@
 // THE SOFTWARE.
 
 #include <assert.h>
+#include "algorithm/iterator.h"
+
 namespace util
 {
 namespace stabi
@@ -26,233 +28,105 @@ namespace stabi
 namespace adapter
 {
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::STLMap2StabiMapAdapter() throw () : m_pMapImpl(NULL)
+template<typename CollectionType>
+stlIterator2stabiIterator<CollectionType>::stlIterator2stabiIterator(iteratorImplType &iteratorImpl, CollectionType *pCollectionImpl) throw () :
+m_iteratorImpl(iteratorImpl),
+m_pCollectionImpl(pCollectionImpl)
 {
 }
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::~STLMap2StabiMapAdapter() throw ()
+template<typename CollectionType>
+stlIterator2stabiIterator<CollectionType>::~stlIterator2stabiIterator() throw ()
 {
-    m_pMapImpl->~mapImplType();
-    AllocatorType::rebind<mapImplType>::other().deallocate(m_pMapImpl, 1);
 }
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Initialize() throw ()
+template<typename CollectionType>
+void stlIterator2stabiIterator<CollectionType>::Destroy() throw ()
 {
-    if (m_pMapImpl != NULL)
-    {
-        m_pMapImpl->~mapImplType();
-        AllocatorType::rebind<mapImplType>::other().deallocate(m_pMapImpl, 1);
-    }
-
-    m_pMapImpl = AllocatorType::rebind<mapImplType>::other().allocate(1);
-    if (m_pMapImpl == NULL)
-    {
-        return false;
-    }
-    ::new(m_pMapImpl) mapImplType;
-    return true;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Attach(mapImplType *pMapImpl) throw ()
-{
-    if (m_pMapImpl != NULL)
-    {
-        m_pMapImpl->~mapImplType();
-        AllocatorType::rebind<mapImplType>::other().deallocate(m_pMapImpl, 1);
-    }
-    m_pMapImpl = pMapImpl;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-typename STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::mapImplType *STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Detach() throw ()
-{
-    mapImplType *pMapImpl = m_pMapImpl;
-    m_pMapImpl = NULL;
-    return pMapImpl;
+    delete this;
 }
 
 // Collection
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Add(const DataType &inData) throw ()
+template<typename CollectionType>
+bool stlIterator2stabiIterator<CollectionType>::HasNext() const throw ()
 {
-	assert(m_pMapImpl != NULL);
-	return false;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Erase(const DataType &data) throw ()
-{
-	assert(m_pMapImpl != NULL);
-	if (m_pMapImpl == NULL)
+	assert(m_pCollectionImpl != NULL);
+	if (m_pCollectionImpl == NULL)
 	{
 		return false;
 	}
 
-	for (mapImplType::iterator it= m_pMapImpl->begin() ; it != m_pMapImpl->end(); ++it)
-	{
-		if (data == it->second)
-		{
-			m_pMapImpl->erase(it);
-			return true;
-		}
-	}
-	return false;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Contains(const DataType &data) const throw ()
-{
-	assert(m_pMapImpl != NULL);
-	if (m_pMapImpl == NULL)
+	if (m_iteratorImpl ==  m_pCollectionImpl->end())
 	{
 		return false;
 	}
 
-	for (mapImplType::iterator it= m_pMapImpl->begin() ; it != m_pMapImpl->end(); ++it)
-	{
-		if (data == it->second)
-		{
-			return true;
-		}
-	}
-	return false;
+	iteratorImplType iteratorTest = m_iteratorImpl;
+	return ++iteratorTest != m_pCollectionImpl->end();
 }
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-size_t STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Size() const throw ()
+template<typename CollectionType>
+bool stlIterator2stabiIterator<CollectionType>::HasPrevious() const throw ()
 {
-	assert(m_pMapImpl != NULL);
-	if (m_pMapImpl == NULL)
+	assert(m_pCollectionImpl != NULL);
+	if (m_pCollectionImpl == NULL)
 	{
-		return 0;
+		return false;
 	}
 
-	return m_pMapImpl->size();
+	return m_iteratorImpl != m_pCollectionImpl->begin();
 }
 
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-void STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Clear() throw ()
+template<typename CollectionType>
+typename stlIterator2stabiIterator<CollectionType>::DataType * stlIterator2stabiIterator<CollectionType>::Get() throw ()
 {
-	assert(m_pMapImpl != NULL);
-	if (m_pMapImpl == NULL)
-	{
-		return;
-	}
-
-	return m_pMapImpl->clear();
-}
-// KeyAccessible
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Put(const KeyType &key, const DataType &data) throw ()
-{
-    assert(m_pMapImpl != NULL);
-    if (m_pMapImpl == NULL)
-    {
-        return false;
-    }
-
-    mapReturnType retVal;
-
-    // note: data copy should not throw any unexpected types
-    try
-    {
-        retVal = m_pMapImpl->insert(valueType(key, data));
-
-        // if key already existed, then replace it
-        if (!retVal.second)
-        {
-            retVal.first->second = data;
-        }
-    }
-    catch (std::bad_alloc*)
-    {
-    	return false;
-    }
-    return true;
+	return const_cast<DataType *>(const_cast<const stlIterator2stabiIterator<CollectionType> *>(this)->Get());
 }
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::EraseKey(const KeyType &key) throw ()
+template<typename CollectionType>
+const typename stlIterator2stabiIterator<CollectionType>::DataType * stlIterator2stabiIterator<CollectionType>::Get() const throw ()
 {
-    assert(m_pMapImpl != NULL);
-    if (m_pMapImpl == NULL)
-    {
-        return false;
-    }
-    return m_pMapImpl->erase(key) != 0;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Remove(const KeyType &key, DataType &outData) throw ()
-{
-    assert(m_pMapImpl != NULL);
-    if (m_pMapImpl == NULL)
-    {
-        return false;
-    }
-
-    mapImplType::iterator retVal;
-    retVal = m_pMapImpl->find(key);
-    if (retVal == m_pMapImpl->end())
-    {
-        return false;
-    }
-
-    try
-    {
-        outData = retVal->second; 
-    }
-    catch (std::bad_alloc*)
-    {
-        return false;    	
-    }
-
-    m_pMapImpl->erase(retVal);
-    return true;
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-DataType * STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) throw ()
-{
-	return const_cast<DataType *>(const_cast<const STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType> *>(this)->Get(key));
-}
-
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-const DataType * STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::Get(const KeyType &key) const throw ()
-{
-	assert(m_pMapImpl != NULL);
-	if (m_pMapImpl == NULL)
+	assert(m_pCollectionImpl != NULL);
+	if (m_pCollectionImpl == NULL)
 	{
 		return NULL;
 	}
 
-	mapImplType::iterator retVal;
-	retVal = m_pMapImpl->find(key);
-	if (retVal == m_pMapImpl->end())
+	if (m_iteratorImpl == m_pCollectionImpl->end())
+	{
+		return NULL;
+	}
+	return &(*m_iteratorImpl);
+}
+
+
+template<typename CollectionType>
+ptrdiff_t stlIterator2stabiIterator<CollectionType>::Move(ptrdiff_t offSet) throw ()
+{
+	assert(m_pCollectionImpl != NULL);
+	if (m_pCollectionImpl == NULL)
 	{
 		return NULL;
 	}
 
-	return &retVal->second;
+	return algorithm::checkedAdvance(m_iteratorImpl, offSet, m_pCollectionImpl->begin(), m_pCollectionImpl->end());
 }
 
-template<typename KeyType, typename DataType, typename CompareFunctor, typename AllocatorType>
-bool STLMap2StabiMapAdapter<KeyType, DataType, CompareFunctor, AllocatorType>::ContainsKey(const KeyType &key) const throw ()
+template<typename CollectionType>
+bool stlIterator2stabiIterator<CollectionType>::Erase() throw ()
 {
-    assert(m_pMapImpl != NULL);
-    if (m_pMapImpl == NULL)
+    assert(m_pCollectionImpl != NULL);
+    if (m_pCollectionImpl == NULL)
     {
         return false;
     }
 
-    mapImplType::iterator retVal;
-    retVal = m_pMapImpl->find(key);
-    return (retVal != m_pMapImpl->end());
+	if (m_iteratorImpl == m_pCollectionImpl->end())
+	{
+		return false;
+	}
+	m_iteratorImpl = m_pCollectionImpl->erase(m_iteratorImpl);
+    return true;
 }
 
 }   // namespace adapter
