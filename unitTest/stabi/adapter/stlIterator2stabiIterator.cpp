@@ -47,6 +47,28 @@ void forwardTest()
 
 	util::stabi::adapter::stlIterator2stabiIterator<collectionType> siBegin2(stdCollection.begin(), &stdCollection);
 	assert(siBegin2.Move(20) == 9);
+
+	util::stabi::adapter::stlIterator2stabiIterator<collectionType> siBegin3(stdCollection.begin(), &stdCollection);
+	// eraser first
+	assert(siBegin3.Erase());
+	assert(stdCollection.size() == 9);
+	assert(siBegin3.Get() != NULL);
+	assert(*siBegin3.Get() == 1);
+
+	// erase random
+	assert(siBegin3.Move(1) == 1);
+	assert(siBegin3.Erase());
+	assert(stdCollection.size() == 8);
+	assert(siBegin3.Get() != NULL);
+	assert(*siBegin3.Get() == 3);
+
+	// erase last
+	assert(siBegin3.Move(10) == 6);
+	assert(siBegin3.Erase());
+	assert(stdCollection.size() == 7);
+	assert(siBegin3.Get() == NULL);
+	assert(!siBegin3.Erase());
+	assert(stdCollection.size() == 7);
 }
 
 template <class collectionType>
@@ -97,7 +119,7 @@ int main()
 	// random access iterator
 	forwardTest<std::vector<int> >();
 	reverseTest<std::vector<int> >();
-	
+
 	// bidirectional iterator
 	forwardTest<std::list<int> >();
 	reverseTest<std::list<int> >();
@@ -105,5 +127,8 @@ int main()
 	// forward iterator
 	// skipping this test since there's no stl::container that uses forward iterators
 
+	std::vector<int> v;
+	util::stabi::adapter::stlIterator2stabiIterator<std::vector<int> > *p = new util::stabi::adapter::stlIterator2stabiIterator<std::vector<int> >(v.end(), &v);
+	p->Destroy();
 	return 0;
 }
